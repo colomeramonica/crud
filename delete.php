@@ -3,7 +3,7 @@
 if (isset($_POST['id']) && !empty($_POST['id'])) {
     require_once('connect.php');
 
-        $sql = 'DELETE FROM `produto` WHERE `id` = ?';
+        $sql = 'DELETE FROM `funcionarios` WHERE `id_funcionario` = ?';
 
         $stmt = $connection->prepare($sql);
 
