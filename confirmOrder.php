@@ -1,27 +1,19 @@
 <?php
-
 if (isset($_POST['id']) && !empty($_POST['id'])) {
     require_once('connect.php');
-
-        $sql = 'DELETE FROM `funcionarios` WHERE `id_funcionario` = ?';
-
+        $sql = "ALTER TABLE `pedidos` SET `status` = 'Em Preparação' WHERE `id_pedido` = ?";
         $stmt = $connection->prepare($sql);
-
         if ($stmt) {
             $stmt->bind_param('i', $paramId);
-
-            $paramId = trim($_POST['id']);
-
+            $paramId = $_POST['id'];
             if ($stmt->execute()) {
                 header('location: index.php');
             } else {
-                echo 'Erro ao salvar.';
+                echo 'Erro ao confirmar.';
             }
-
         }
             
     $stmt->close();
-
     $connection->close();
 }
 ?>
@@ -30,7 +22,7 @@ if (isset($_POST['id']) && !empty($_POST['id'])) {
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Remover</title>
+    <title>Confirmar</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <style type="text/css">
         .wrapper{
@@ -45,15 +37,14 @@ if (isset($_POST['id']) && !empty($_POST['id'])) {
             <div class="row">
                 <div class="col-md-12">
                     <div class="page-header">
-                        <h1>Apagar registro</h1>
                     </div>
                     <form method="post">
-                        <div class="alert alert-danger fade-in">
-                            <p>Você tem certeza que deseja remover?</p>
+                        <div class="alert alert-info fade-in">
+                            <p>Confirmar pedido?</p>
                             <p>
-                                <input type="hidden" name="id" value="<?php echo trim($_GET["id"]); ?>">
-                                <input type="submit" value="Sim" class="btn btn-danger">
-                                <a href="index.php" class="btn btn-default">Não</a>
+                                <input type="hidden" name="id" value="<?php echo $_GET["id"]; ?>">
+                                <input type="submit" value="Sim" class="btn btn-default">
+                                <a href="index.php" class="btn btn-danger">Não</a>
                             </p>
                         </div>
                     </form>

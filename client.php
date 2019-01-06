@@ -25,15 +25,15 @@
     </script>
 </head>
 <body>
-    <h4 class="pull-left client-dash"><a class="btn btn-info" href="client.php">Sou um cliente</a></h4>
+    <h4 class="pull-left"><a class="btn btn-info" href="admin.php">Sou admin</a></h4>
     <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <div class="page-header clearfix">
                         <h2 class="pull-left">Pedidos realizados</h2>
-                        <h4 class="pull-left reports"><a class="btn btn-dark" href="reports.php">Relatórios</a></h4>
-                        <a href="newItem.php" class="btn btn-success pull-right">Cadastrar novo item</a>
+                        <h4 class="pull-left reports"><a class="btn btn-dark" href="reviews.php">Avaliações</a></h4>
+                        <a href="newOrder.php" class="btn btn-success pull-right">Fazer pedido</a>
                     </div>
                     <?php
                     require_once "connect.php";
@@ -48,7 +48,6 @@
                                         echo "<th>Item</th>";
                                         echo "<th>Data</th>";
                                         echo "<th>Status</th>";
-                                        echo "<th>Ações</th>";
                                     echo "</tr>";
                                 echo "</thead>";
                                 echo "<tbody>";
@@ -64,13 +63,6 @@
                                         echo "<td>" . $itemName['nome'] . "</td>";
                                         echo "<td>" . date('d/m/Y', $date)  . "</td>";
                                         echo "<td>" . $row['status'] . "</td>";
-                                        echo "<td>";
-                                        if ($row['status'] == 'Pendente') {
-                                            echo "<a href='confirmOrder.php?id=". $row['id_pedido'] ."'' title='Confirmar pedido' onclick='confirmOrder(" . $row['id_pedido'] . ")'>Confirmar</a>";
-                                        }
-                                            echo "<a href='editOrder.php?id=". $row['id_pedido'] ."' title='Editar pedido' data-toggle='tooltip'><span>Editar</span></a>";
-                                        echo "</td>";
-
                                     echo "</tr>";
                                 }
                                 echo "</tbody>";                            
@@ -93,12 +85,8 @@
 </html>
 
 <style>
-.client-dash{
+h4{
     padding-left: 50px;
     font-size: 17px;
-}
-
-.reports{
-    padding-left: 15px;
 }
 </style>

@@ -25,52 +25,37 @@
     </script>
 </head>
 <body>
-    <h4 class="pull-left client-dash"><a class="btn btn-info" href="client.php">Sou um cliente</a></h4>
+    <h4 class="pull-left"><a class="btn btn-info" href="index.php">Sou admin</a></h4>
     <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <div class="page-header clearfix">
-                        <h2 class="pull-left">Pedidos realizados</h2>
-                        <h4 class="pull-left reports"><a class="btn btn-dark" href="reports.php">Relatórios</a></h4>
-                        <a href="newItem.php" class="btn btn-success pull-right">Cadastrar novo item</a>
+                        <h2 class="pull-left">Avaliações</h2>
+                        <a href="newReview.php" class="btn btn-success pull-right">Nova avaliação</a>
                     </div>
                     <?php
                     require_once "connect.php";
                     
-                    $sql = "SELECT * FROM `pedidos`";
+                    $sql = "SELECT * FROM `avaliacoes`";
                     if($result = $connection->query($sql)){
                         if($result->num_rows > 0){
                             echo "<table class='table table-bordered table-striped'>";
                                 echo "<thead>";
                                     echo "<tr>";
                                         echo "<th>#</th>";
-                                        echo "<th>Item</th>";
-                                        echo "<th>Data</th>";
-                                        echo "<th>Status</th>";
-                                        echo "<th>Ações</th>";
+                                        echo "<th>Pedido</th>";
+                                        echo "<th>Descrição</th>";
+                                        echo "<th>Nota</th>";
                                     echo "</tr>";
                                 echo "</thead>";
                                 echo "<tbody>";
                                 while($row = $result->fetch_array()){
-                                    $date = strtotime($row['data']);
-
-                                    $join = 'SELECT `nome` FROM `cardapio` as c JOIN `pedidos` as p ON c.id_item = p.id_item';
-                                    $item = $connection->query($join);
-                                    $itemName = $item->fetch_array();
-
                                     echo "<tr>";
+                                        echo "<td>" . $row['id_avaliacao'] . "</td>";
                                         echo "<td>" . $row['id_pedido'] . "</td>";
-                                        echo "<td>" . $itemName['nome'] . "</td>";
-                                        echo "<td>" . date('d/m/Y', $date)  . "</td>";
-                                        echo "<td>" . $row['status'] . "</td>";
-                                        echo "<td>";
-                                        if ($row['status'] == 'Pendente') {
-                                            echo "<a href='confirmOrder.php?id=". $row['id_pedido'] ."'' title='Confirmar pedido' onclick='confirmOrder(" . $row['id_pedido'] . ")'>Confirmar</a>";
-                                        }
-                                            echo "<a href='editOrder.php?id=". $row['id_pedido'] ."' title='Editar pedido' data-toggle='tooltip'><span>Editar</span></a>";
-                                        echo "</td>";
-
+                                        echo "<td>" . $row['descricao'] . "</td>";
+                                        echo "<td>" . $row['nota']  . "</td>";
                                     echo "</tr>";
                                 }
                                 echo "</tbody>";                            
@@ -86,6 +71,7 @@
                     $connection->close();
                     ?>
                 </div>
+                <p><a href="client.php" class="btn btn-primary">Voltar</a></p>
             </div>        
         </div>
     </div>
@@ -93,12 +79,8 @@
 </html>
 
 <style>
-.client-dash{
+h4{
     padding-left: 50px;
     font-size: 17px;
-}
-
-.reports{
-    padding-left: 15px;
 }
 </style>
