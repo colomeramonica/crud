@@ -9,6 +9,18 @@ CREATE TABLE cardapio (
     CONSTRAINT pk_cardapio PRIMARY KEY (id_item)
 );
 
+CREATE TABLE pedidos (
+    id_pedido INT NOT NULL AUTO_INCREMENT,
+    id_item INT,
+    forma_pgto VARCHAR(30),
+    endereco VARCHAR(300),
+    data_pedido DATETIME,
+    status VARCHAR(100) DEFAULT 'Pendente',
+    CONSTRAINT pk_pedido PRIMARY KEY (id_pedido),
+    CONSTRAINT fk_produto_pedido FOREIGN KEY (id_item)
+        REFERENCES cardapio (id_item)
+);
+
 CREATE TABLE avaliacoes (
     id_avaliacao INT NOT NULL AUTO_INCREMENT,
     descricao VARCHAR(300),
@@ -17,18 +29,6 @@ CREATE TABLE avaliacoes (
     CONSTRAINT pk_avaliacao PRIMARY KEY (id_avaliacao),
     CONSTRAINT fk_avaliacao_pedido FOREIGN KEY (id_pedido)
         REFERENCES pedidos (id_pedido)
-);
-
-CREATE TABLE pedidos (
-    id_pedido INT NOT NULL AUTO_INCREMENT,
-    id_item INT,
-    forma_pgto VARCHAR(30),
-    endereco VARCHAR(300),
-    data DATE,
-    status VARCHAR(100) DEFAULT 'Pendente',
-    CONSTRAINT pk_pedido PRIMARY KEY (id_pedido),
-    CONSTRAINT fk_produto_pedido FOREIGN KEY (id_item)
-        REFERENCES cardapio (id_item)
 );
 
 CREATE TABLE faturamento (

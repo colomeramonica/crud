@@ -25,7 +25,7 @@
     </script>
 </head>
 <body>
-    <h4 class="pull-left"><a class="btn btn-info" href="admin.php">Sou admin</a></h4>
+    <h4 class="pull-left"><a class="btn btn-info" href="index.php">Sou admin</a></h4>
     <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
@@ -52,7 +52,7 @@
                                 echo "</thead>";
                                 echo "<tbody>";
                                 while($row = $result->fetch_array()){
-                                    $date = strtotime($row['data']);
+                                    $date = strtotime($row['data_pedido']);
 
                                     $join = 'SELECT `nome` FROM `cardapio` as c JOIN `pedidos` as p ON c.id_item = p.id_item';
                                     $item = $connection->query($join);

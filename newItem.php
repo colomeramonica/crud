@@ -49,30 +49,32 @@ require_once "connect.php";
  
  $name = $description = $price = "";
 
-if (isset($_POST) && !empty($_POST)) {
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-	$price = $_POST['price'];	
-}
 
-	$sql = "INSERT INTO `cardapio` (nome, descricao, preco) VALUES (?, ?, ?)";
-
-	if($stmt = $connection->prepare($sql)){
-		$stmt->bind_param("ssd", $paramName, $paramDscrp, $paramPrice);
-		
-		$paramName = $name;
-		$paramDscrp = $description;
-		$paramPrice = $price;
-		
-		if($stmt->execute()){
-			echo "Salvo com sucesso.";
-			exit();
-		} else{
-			echo "Erro ao salvar.";
-		}
+	if (isset($_POST) && !empty($_POST)) {
+		$name = $_POST['name'];
+		$description = $_POST['description'];
+		$price = $_POST['price'];	
 	}
-		
-	$stmt->close();
-    
-    $connection->close();
+
+		$sql = "INSERT INTO `cardapio` (nome, descricao, preco) VALUES (?, ?, ?)";
+		if (!empty($name) && !empty($description) && !empty($price)) {
+			if($stmt = $connection->prepare($sql)){
+				$stmt->bind_param("ssd", $paramName, $paramDscrp, $paramPrice);
+				
+				$paramName = $name;
+				$paramDscrp = $description;
+				$paramPrice = $price;
+				
+				if($stmt->execute()){
+					echo "Salvo com sucesso.";
+					exit();
+				} else{
+					echo "Erro ao salvar.";
+				}
+			}
+				
+			$stmt->close();
+			
+			$connection->close();
+	}
 ?>

@@ -64,33 +64,35 @@
 <?php
 require_once "connect.php";
  
- $item = $description = $payment = $address = "";
+ $item = $payment = $address = "";
 
 if (isset($_POST) && !empty($_POST)) {
     $item = $_POST['item'];
     $payment = $_POST['payment'];
     $address = $_POST['address'];
-    $date = date('d/m/Y');
+    $date = date('Y-m-d');
 }
 
-    $sql = "INSERT INTO `pedidos` (id_item, forma_pgto, endereco, data) VALUES (?, ?, ?, NOW())";
+    $sql = "INSERT INTO `pedidos` (id_item, forma_pgto, endereco, data_pedido) VALUES (?, ?, ?, NOW())";
 
-    if($stmt = $connection->prepare($sql)){
-        $stmt->bind_param("iss", $paramItem, $paramPayment, $paramAddress); 
-        
-        $paramItem = $item;
-        $paramAddress = $address;
-        $paramPayment = $payment;
-        
-        if($stmt->execute()){
-            echo "Salvo com sucesso.";
-            exit();
-        } else{
-            echo "Erro ao salvar.";
+    if (!empty($item) && !empty($payment) && !empty($address)) {
+        if($stmt = $connection->prepare($sql)){
+            $stmt->bind_param("iss", $paramItem, $paramPayment, $paramAddress); 
+            
+            $paramItem = $item;
+            $paramAddress = $address;
+            $paramPayment = $payment;
+            
+            if($stmt->execute()) {
+                echo "Salvo com sucesso.";
+                exit();
+            } else{
+                echo "Erro ao salvar.";
+            }
         }
-    }
+            
+        $stmt->close();
         
-    $stmt->close();
-    
-    $connection->close();
+        $connection->close();
+}
 ?>
